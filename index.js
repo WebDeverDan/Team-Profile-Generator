@@ -21,91 +21,41 @@
 
 const inquirer = require("inquirer");
 const fs = require("fs");
-const generateHTML = require("./utils/generateHTML");
-// const questions = require("./data/questions");
 
-// asks for an intern(during engineering question)
-function wantIntern() {
-  inquirer.prompt(addInternQ).then((answers) => {
-    if (answers.standAloneAddIntern) {
-      askInternQ();
-    }
+// const managerQ = require(filepath);
+// const engineerQ = require(filepath);
+// const internQ = require(filepath);
+
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+
+const employees = [];
+
+function askEngineerQ() {
+  inquirer.prompt(engineerQ).then((answers) => {
+    const engineer = new Engineer(
+      answers.engineerName,
+      answers.engineerID,
+      answers.engineerEmail,
+      answers.engineerGitHub
+    );
+    employees.push(engineer);
+    menu();
   });
 }
 
 // this function controlls the intern questions
 function askInternQ() {
   inquirer.prompt(internQ).then((answers) => {
-    if (answers.otherInternYN) {
-      fs.appendFile(
-        "index.html",
-        `<div class="card" style="width: 18rem;">
-      <div class="card-header">
-      ${answers.internName}: Intern
-      </div>
-          <ul class="list-group list-group-flush">
-              <li class="list-group-item">ID: ${answers.internID}</li>
-              <li class="list-group-item"> Email: ${answers.internEmail}</li>
-              <li class="list-group-item">School: ${answers.internSchool}</li>
-          </ul>
-      </div>`,
-        (err) => (err ? console.error(err) : askInternQ())
-      );
-      console.log(answers);
-    } else if (answers.otherInternYN == false) {
-      fs.appendFile(
-        "index.html",
-        `<div class="card" style="width: 18rem;">
-        <div class="card-header">
-        ${answers.internName}: Intern
-        </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID: ${answers.internID}</li>
-                <li class="list-group-item"> Email: ${answers.internEmail}</li>
-                <li class="list-group-item">School: ${answers.internSchool}</li>
-            </ul>
-        </div>`,
-        (err) => (err ? console.error(err) : console.log(answers))
-      );
-    }
-  });
-}
-// this function asks the engineer questions
-function askEngineerQ() {
-  inquirer.prompt(engineerQ).then((answers) => {
-    if (answers.otherEngineerYN) {
-      fs.appendFile(
-        "index.html",
-        `<div class="card" style="width: 18rem;">
-    <div class="card-header">
-    ${answers.engineerName}: Engineer
-    </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID: ${answers.engineerID}</li>
-            <li class="list-group-item"> Email: ${answers.engineerEmail}</li>
-            <li class="list-group-item">GitHub Username: ${answers.engineerGitHub}</li>
-        </ul>
-    </div>`,
-        (err) => (err ? console.error(err) : askEngineerQ())
-      );
-      console.log(answers);
-    } else if (answers.otherEngineerYN == false) {
-      fs.appendFile(
-        "index.html",
-        `<div class="card" style="width: 18rem;">
-    <div class="card-header">
-    ${answers.engineerName}: Engineer
-    </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID: ${answers.engineerID}</li>
-            <li class="list-group-item"> Email: ${answers.engineerEmail}</li>
-            <li class="list-group-item">GitHub Username: ${answers.engineerGitHub}</li>
-        </ul>
-    </div>`,
-        (err) => (err ? console.error(err) : wantIntern())
-      );
-      console.log(answers);
-    }
+    const intern = new Intern(
+      answers.internName,
+      answers.internID,
+      answers.internEmail,
+      answers.internSchool
+    );
+    employees.push(intern);
+    menu();
   });
 }
 
@@ -131,13 +81,8 @@ const managerQ = [
     message: "What is their office number?",
     name: "officeNumber",
   },
-  {
-    type: "confirm",
-    message: "Do you want to add an engineer to the team?",
-    name: "engineerYN",
-  },
 ];
-// questions array for the engineer 
+// questions array for the engineer
 const engineerQ = [
   {
     type: "input",
@@ -158,11 +103,6 @@ const engineerQ = [
     type: "input",
     message: "What is the engineer's GitHub username?",
     name: "engineerGitHub",
-  },
-  {
-    type: "confirm",
-    message: "Do you want to add another engineer to the team?",
-    name: "otherEngineerYN",
   },
 ];
 
@@ -188,70 +128,102 @@ const internQ = [
     message: "What school does the intern attend?",
     name: "internSchool",
   },
-  {
-    type: "confirm",
-    message: "Do you want to add another intern to the team?",
-    name: "otherInternYN",
-  },
 ];
 
-// questions array to ask if the user does not want to add a manager
-const addInternQ = [
-  {
-    type: "confirm",
-    message: "Do you want to add an intern to the team?",
-    name: "standAloneAddIntern",
-  },
-];
+// function for the menu
+function menu() {
+  inquirer
+    .prompt({
+      type: "list",
+      name: "employeeType",
+      message: "Which employee do you want to add?",
+      choices: ["Engineer", "Intern", "Exit"],
+    })
+    .then((answers) => {
+      if (answers.employeeType === "Engineer") {
+        askEngineerQ();
+      } else if (answers.employeeType === "Intern") {
+        askInternQ();
+      } else {
+        createTeam();
+      }
+    });
+}
 
-// this prompts the inquirer 
+// function to create the team based on answers and loop
+function createTeam() {
+  let cardString = "";
+  for (let index = 0; index < employees.length; index++) {
+    cardString = cardString + card(employees[index]);
+  }
+
+  // writes the index.html to the folder
+  fs.writeFileSync("index.html", html(cardString));
+  // console.log(answers);
+}
+
+// this prompts the inquirer when the user types node index.js
 inquirer.prompt(managerQ).then((answers) => {
-  // need to write code to create html
-  // need to write code to put answers from managerQ into html
-  const htmlFile = `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-      <title>Team Profile Generator</title>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    </head>
-    <body>
+  const manager = new Manager(
+    answers.managerName,
+    answers.employeeID,
+    answers.managerEmail,
+    answers.officeNumber
+  );
 
-    <nav class="navbar navbar-light bg-light">
-        <div class="container-fluid">
-          <span class="navbar-brand mb-0 h1">Our Team</span>
-        </div>
-    </nav>
-
-
-    <div class="card" style="width: 18rem;">
-    <div class="card-header">
-    ${answers.managerName}: Manager
-    </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID: ${answers.employeeID}</li>
-            <li class="list-group-item"> Email: ${answers.managerEmail}</li>
-            <li class="list-group-item">Office Number: ${answers.officeNumber}</li>
-        </ul>
-    </div>
-
-    </body>
-    </html>`;
-
-// writes the index.html to the folder
-  fs.writeFileSync("index.html", htmlFile);
-  console.log(answers);
-  // if answer is yes
-  // it will create html block for the manager answers (done)
-  if (answers.engineerYN) {
-    // it will run the engineering questions
-    askEngineerQ();
-  } else wantIntern();
-
-
-  function init() {}
-  //  call to initialize app
-  init();
+  employees.push(manager);
+  menu();
 });
+
+// this creates each card based on the answers they provide
+function card(answers) {
+  let newField = "";
+
+  if (answers.getRole() === "Manager") {
+    newField = `<li class="list-group-item">Office Number: ${answers.officeNumber}</li>`;
+  }
+  if (answers.getRole() === "Engineer") {
+    newField = `<li class="list-group-item">HitHub Username: ${answers.github}</li>`;
+  }
+  if (answers.getRole() === "Intern") {
+    newField = `<li class="list-group-item">School: ${answers.school}</li>`;
+  }
+
+  return ` <div class="card" style="width: 18rem;">
+  <div class="card-header">
+  ${answers.name}:  ${answers.getRole()}
+  </div>
+      <ul class="list-group list-group-flush">
+          <li class="list-group-item">ID: ${answers.id}</li>
+          <li class="list-group-item"> Email: ${answers.email}</li>
+            ${newField}
+      </ul>
+  </div>`;
+}
+
+// this creates the html and puts the card in. card is the collective everything
+function html(card) {
+  const htmlFile = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>My Team</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  </head>
+  <body>
+
+  <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Our Team</span>
+      </div>
+  </nav>
+
+    ${card}
+ 
+
+  </body>
+  </html>`;
+  return htmlFile;
+}
