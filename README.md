@@ -5,7 +5,7 @@
   
   ## Description
   
-  * This node-based application automatically creates an HTML page that pulls submitted information via the Inquirer dependency. In order to create the user's team, they must indicate who is on their team (engineers and interns) and fill out relevant information about them, including email address, GitHub profile name, office number, and attending school (if intern). This information will then be used to create a static webpage that displays the team information. 
+  * This node-based application automatically creates an HTML page that pulls submitted information created via the Inquirer dependency. In order to create the user's team, they must indicate who is on their team (engineers and interns), and fill out relevant information about them, including email address, GitHub profile name, office number, and attending school (if intern). This information will then be used to create a static webpage that displays the team information. 
   
   ## Table of Contents
   
@@ -50,9 +50,9 @@
   ## Questions
   * If you have any questions regarding the application, please reach out to **Daniel Bradley** (the creator), at their GitHub profile located here: **https://github.com/WebDeverDan**, or via email at **danielbvideo@gmail.com**.
 
-  ![Image 1 of application:]()
-  ![Image 2 of application:]()
-  ![Image 3 of application:]() 
+  ![Image 1 of application:](https://github.com/WebDeverDan/Team-Profile-Generator/blob/4f05e2cc1ea7b736bb33c97625d3257aa668688e/Screenshots/Node%20Interface%20.png)
+  ![Image 2 of application:](https://github.com/WebDeverDan/Team-Profile-Generator/blob/4f05e2cc1ea7b736bb33c97625d3257aa668688e/Screenshots/HTML%20Page.png)
+
 
 
   
