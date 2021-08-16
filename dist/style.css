@@ -1,0 +1,37 @@
+.navbar {
+    background: cornflowerblue;
+    text-align: center;
+    font: #FFF; 
+    border-bottom: solid;
+    border-color: black;
+    
+}
+
+.navbar-brand {
+    font-size: 30px;
+}
+
+.cardContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 3em;
+}
+
+.card {
+    margin: 1em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    box-shadow: 2px 2px 2px black;
+    border: solid;
+    border-width: 1px; 
+}
+
+.card-header {
+    background: cornflowerblue;
+    
+}
+
+.boldText {
+    font-weight: bold;
+}

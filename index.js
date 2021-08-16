@@ -12,11 +12,11 @@
 // upon completion, the team will be built and html will be generated
 
 // 1. set up question structure for the program (done)
-// 2. set up classes and sub classes
+// 2. set up classes and sub classes (done)
 // 3. set up tests
 // 4. run tests
 // 5. create html page (done)
-// 6. create css for html page and cards
+// 6. create css for html page and cards (done)
 // 7. create README with screenshots, video link, link to deployed and repo
 
 const inquirer = require("inquirer");
@@ -180,23 +180,23 @@ function card(answers) {
   let newField = "";
 
   if (answers.getRole() === "Manager") {
-    newField = `<li class="list-group-item">Office Number: ${answers.officeNumber}</li>`;
+    newField = `<li class="list-group-item"><span class="boldText">Office Number:</span> ${answers.officeNumber}</li>`;
   }
-  if (answers.getRole() === "Engineer") {
-    newField = `<li class="list-group-item">HitHub Username: ${answers.github}</li>`;
+  else if (answers.getRole() === "Engineer") {
+    newField = `<li class="list-group-item"><span class="boldText">GitHub Username:</span><a href="https://github.com/${answers.gitHub}"> ${answers.gitHub}</a></li>`;
   }
-  if (answers.getRole() === "Intern") {
-    newField = `<li class="list-group-item">School: ${answers.school}</li>`;
+  else if (answers.getRole() === "Intern") {
+    newField = `<li class="list-group-item"><span class="boldText">School:</span> ${answers.school}</li>`;
   }
 
   return ` <div class="card" style="width: 18rem;">
-  <div class="card-header">
-  ${answers.name}:  ${answers.getRole()}
+  <div class="card-header text-white"><span class="boldText">
+  ${answers.name}:</span>  ${answers.getRole()}
   </div>
       <ul class="list-group list-group-flush">
-          <li class="list-group-item">ID: ${answers.id}</li>
-          <li class="list-group-item"> Email: ${answers.email}</li>
-            ${newField}
+          <li class="list-group-item"><span class="boldText">ID:</span> ${answers.id}</li>
+          <li class="list-group-item"><span class="boldText">Email:</span><a href="mailto:${answers.email}"> ${answers.email}</a></li>
+          ${newField}
       </ul>
   </div>`;
 }
@@ -209,20 +209,23 @@ function html(card) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <title>My Team</title>
+    <title>our Dev Team</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-  </head>
+    <link href ="./dist/style.css" rel="stylesheet">
+    </head>
   <body>
 
-  <nav class="navbar navbar-light bg-light">
+  <nav class="navbar navbar-light text-white ">
       <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">Our Team</span>
+        <span class="navbar-brand mx-auto mb-0 text-white">Our Dev Team</span>
       </div>
   </nav>
 
+  <div class="cardContainer">
     ${card}
  
 
+  </div>   
   </body>
   </html>`;
   return htmlFile;
