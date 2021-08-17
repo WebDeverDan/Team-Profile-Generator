@@ -1,24 +1,35 @@
-const askEngineerQ = require('/Users/DBrad/Documents/Coding/Team-Profile-Generator/index.js')
+const Employee = require('../lib/Employee')
+const Engineer = require('../lib/Engineer')
 
+test("getName", () => {
+    const name = "Daniel Bradley";
+    const output = new Employee(name);
+    expect(output.name).toEqual(name);
 
-describe("askEngineerQ", () => {
-    it("should ask the questions and create an engineer object with those answers", () => {
-        const input = [
-            { Name: "Daniel" },
-            { ID: 123 },
-            { Email: "danielbvideo@danielbvideo.com" },
-            { GitHub: "webdeverdan" }
-        ];
-        
-        const output = [
-            { Name: "Daniel" },
-            { ID: 123 },
-            { Email: "danielbvideo@danielbvideo.com" },
-            { GitHub: "webdeverdan" }
-        ];
-    
+});
 
-    expect(it(output)).toEqual(input)
-    });
-}); 
-      
+test("getId", () => {
+    const name = "Daniel Bradley";
+    const id = 34;
+    const output = new Employee(name,id);
+    expect(output.id).toEqual(id);
+
+});
+
+test("getEmail", () => {
+    const name = "Daniel Bradley";
+    const id = 34;
+    const email = "danielbvideo@gmail.com";
+    const output = new Employee(name, id, email);
+    expect(output.email).toEqual(email);
+
+});
+
+test("getGitHub", () => {
+    const name = "Daniel Bradley";
+    const id = 34;
+    const email = "danielbvideo@gmail.com";
+    const gitHub = "WebDeverDan";
+    const output = new Engineer(name, id, email, gitHub)
+    expect(output.gitHub).toEqual(gitHub);
+});
