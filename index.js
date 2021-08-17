@@ -17,7 +17,7 @@
 // 4. run tests
 // 5. create html page (done)
 // 6. create css for html page and cards (done)
-// 7. create README with screenshots, video link, link to deployed and repo
+// 7. create README with screenshots, video link, link to deployed and repo (done)
 
 const inquirer = require("inquirer");
 const fs = require("fs");
@@ -32,6 +32,7 @@ const Intern = require("./lib/Intern");
 
 const employees = [];
 
+// function controls the engineer questions
 function askEngineerQ() {
   inquirer.prompt(engineerQ).then((answers) => {
     const engineer = new Engineer(
@@ -223,8 +224,6 @@ function html(card) {
 
   <div class="cardContainer">
     ${card}
- 
-
   </div>   
   </body>
   </html>`;
