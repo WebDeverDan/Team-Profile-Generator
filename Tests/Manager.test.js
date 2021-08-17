@@ -25,7 +25,7 @@ test("getEmail", () => {
 
 });
 
-test("getGitHub", () => {
+test("getOfficeNumber", () => {
     const name = "Daniel Bradley";
     const id = 34;
     const email = "danielbvideo@gmail.com";
