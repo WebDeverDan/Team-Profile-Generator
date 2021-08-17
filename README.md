@@ -26,7 +26,7 @@
   
   ## Usage
   
-  * Once the user has run the program, an index.html file will appear in the directory. Open this up in the browser to see the team that has been generated due to the user input. The email address is clickable and will open the user's default email application and create a blank email to the email that was clicked on. In addition, the respective GitHub usernames will open a new tab with the respective GitHub repositories. Please watch this video for a walkthrough of how to use this application: INSERT VIDEO LINK. 
+  * Once the user has run the program, an index.html file will appear in the directory. Open this up in the browser to see the team that has been generated due to the user input. The email address is clickable and will open the user's default email application and create a blank email to the email that was clicked on. In addition, the respective GitHub usernames will open a new tab with the respective GitHub repositories. Please watch this video for a walkthrough of how to use this application: https://youtu.be/gWw3OMeC2LY. 
   
   ## Contributing
   
